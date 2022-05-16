@@ -22,6 +22,8 @@ def create_dataframe(city, first_date, nb_year):
 
     return df
 
+#Ajout du nombre d'utilisateur par rapport à la population locale en prenant un nombre aléatoire entre deux valeurs ainsi que du nombre de vélos cassés
+#Création d'un NB_User_Temp pour par la suite trier les champs d'un ordre croissant ou décroissant pour dessiner une tendance
 
 def add_nb_users(df):
     for idx, row in df.iterrows():
@@ -67,6 +69,8 @@ def add_nb_users(df):
                 row["nb_bikes"] * 0.01, row["nb_bikes"] * 0.02
             )
     i = 0
+
+    #Tri par ordre croissant ou décroissant dans un nouveau champ 
     for idx, row in df[df["cities"] == "Lyon"].iterrows():
         df.loc[idx, "Nb_User"] = list(
             df["Temp_Nb_User"].sort_values(ascending=True)
@@ -132,6 +136,7 @@ def add_nb_users(df):
     del df["Temp_Nb_User"]
     return df
 
+#Ajout du nombre de trips ainsi que du nombre de KM
 
 def add_nb_trips_km(df):
     for idx, row in df.iterrows():
@@ -194,5 +199,7 @@ if __name__ == "__main__":
     df = create_dataframe(city, first_date, 1)
     df = add_nb_users(df)
     df = add_nb_trips_km(df)
+
+#Extract en CSV
 
     df.to_csv(r"./data/results.csv", index=False)
